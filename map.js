@@ -6,19 +6,25 @@ var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v4/chrisgist.vwhtzkt
   attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
 });
 
+
+var map = L.map('map').addLayer(mapboxTiles).setView([43.0305, -71.3071], 9);
+
+
 $.getJSON('./places.geojson', function(data) {
   var geojson = L.geoJson(data, {
     onEachFeature: function(feature, layer) {
       layer.bindPopup(feature.properties.name);
-      //console.log("properties", feature.properties.name);
+      console.log("properties", feature.properties.name);
     }
   });
-  var map = L.map('map').fitBounds(geojson.getBounds());
-  map.addLayer(mapboxTiles);
+  //var map = L.map('map').fitBounds(geojson.getBounds());
+  
   //mapboxTiles.addTo(map);
   geojson.addTo(map);
+  //map.addLayer(mapboxTiles);
 });
 
+map.addLayer(mapboxTiles);
 
-//var map = L.map('map').addLayer(mapboxTiles).setView([43.0305, -71.3071], 9);
+// look at https://github.com/hallahan/LeafletPlayback
 
